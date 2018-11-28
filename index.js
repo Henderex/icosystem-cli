@@ -196,7 +196,7 @@ function constructData(data) {
       });
       resolve(data);
     } else {
-      reject(badDataError)
+      reject(badDataError);
     }
   });
 }
@@ -228,24 +228,15 @@ function buildIcons(data) {
         // remove common svg nonsense
         file = file.replace(/<\?xml(.*?)>|<!DOCTYPE(.*?)>|^ /g, '');
         file = file.replace(/<style(.*?)>*<\/style>/g, '');
-        file = file.replace(/svg/g, 'symbol');
+
         $ = cheerio.load(file, {
           normalizeWhitespace: true,
           decodeEntities: false
         });
-        // remove all fills / styles
-        $('[fill]').removeAttr('fill');
-        $('[style]').removeAttr('style');
-        let symbol = $('symbol');
-        // remove all symbol attributes except viewBox
-        let viewBox = symbol[0].attribs.viewbox;
-        symbol[0].attribs = {};
-        if (viewBox) {
-          symbol[0].attribs.viewbox = viewBox;
-        }
+        let symbol = $('svg');
 
         if (config.prepend) {
-          iconName = `${config.prepend}-${iconName}`
+          iconName = `${config.prepend}-${iconName}`;
         }
 
         if (config.map) {
@@ -256,7 +247,7 @@ function buildIcons(data) {
         return $.html();
       });
       // wrap symbols in svg
-      let svg = `<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">${iconMap.join('')}</svg>`;
+      let svg = `<svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><def>${iconMap.join('')}</def></svg>`;
       resolve(htmlClean(svg));
     });
   }));
@@ -282,7 +273,7 @@ function buildFile(svg) {
     }
     fs.writeFile(`${outputPath}/${outputFileName}`, template, err => {
       if (err) {
-        throw err
+        throw err;
       } else {
         resolve();
       }
