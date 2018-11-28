@@ -2,6 +2,13 @@
 
 Icosystem CLI is a utility that creates SVG `<symbol>`'s by simply stating what icons you want to use.
 
+### v0.4
+
+Angular Material iconset compatibility changes:
+
+- No longer converts `<svg>` tags to `<symbol>` tags.
+- No longer strips `fill` and `style` attributes.
+
 ### v0.3.0 - Breaking changes
 
 #### Configuration Requirements
